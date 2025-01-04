@@ -17,7 +17,7 @@ class Address {
     required this.countryCode,
   });
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
+  factory Address.fromMap(Map<String, dynamic> json) => Address(
     city: json["city"],
     stateDistrict: json["state_district"],
     state: json["state"],

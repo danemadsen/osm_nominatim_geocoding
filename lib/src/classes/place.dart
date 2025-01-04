@@ -4,7 +4,7 @@ import 'package:geojson_vi/geojson_vi.dart';
 
 import 'address.dart';
 
-List<Place> placeFromJson(String str) => List<Place>.from(json.decode(str).map((x) => Place.fromJson(x)));
+List<Place> placefromMap(String str) => List<Place>.from(json.decode(str).map((x) => Place.fromMap(x)));
 
 String placetoMap(List<Place> data) => json.encode(List<dynamic>.from(data.map((x) => x.toMap())));
 
@@ -51,7 +51,7 @@ class Place {
         this.extratags,
     });
 
-    factory Place.fromJson(Map<String, dynamic> json) => Place(
+    factory Place.fromMap(Map<String, dynamic> json) => Place(
         placeId: json["place_id"],
         licence: json["licence"],
         osmType: json["osm_type"],
@@ -69,7 +69,7 @@ class Place {
         geojson: json["geojson"] == null ? null : GeoJSON.fromMap(json["geojson"]),
         placeClass: json["class"],
         icon: json["icon"],
-        address: json["address"] == null ? null : Address.fromJson(json["address"]),
+        address: json["address"] == null ? null : Address.fromMap(json["address"]),
         extratags: json["extratags"],
     );
 
