@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:osm_nominatim_geocoding/src/classes/structured_search_query.dart';
+import 'package:osm_nominatim_geocoding/src/enumerators/nominatim_routes.dart';
 
 import 'classes/place.dart';
 
 class Nominatim {
-  static const String _baseUrl = 'https://nominatim.openstreetmap.org';
   final Dio _dioClient;
 
   Nominatim({Dio? dioClient}) : _dioClient = dioClient ?? Dio();
@@ -22,7 +22,7 @@ class Nominatim {
 
   Future<List<Place>> searchSimple(String q) async {
     final response = await _dioClient.get<List<Map<String,dynamic>>>(
-      '$_baseUrl/search',
+      NominatimRoute.search.url,
       queryParameters: {
         'q': q,
         'format': 'json'
@@ -38,7 +38,7 @@ class Nominatim {
 
   Future<List<Place>> searchStructured(SearchQuery query) async {
     final response = await _dioClient.get<List<Map<String,dynamic>>>(
-      '$_baseUrl/search',
+      NominatimRoute.search.url,
       queryParameters: query.toMap(),
     );
 
