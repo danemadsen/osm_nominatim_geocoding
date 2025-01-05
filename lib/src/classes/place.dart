@@ -1,15 +1,14 @@
 import 'package:geojson_vi/geojson_vi.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../enumerators/osm_type.dart';
 import 'bounding_box.dart';
 import 'address.dart';
+import 'osm_id.dart';
 
 class Place {
     int placeId;
     String licence;
-    OsmType osmType;
-    int osmId;
+    OsmId osmId;
     LatLng position;
     String? category;
     String type;
@@ -27,7 +26,6 @@ class Place {
     Place({
         required this.placeId,
         required this.licence,
-        required this.osmType,
         required this.osmId,
         required this.position,
         this.category,
@@ -70,8 +68,7 @@ class Place {
         return Place(
             placeId: map["place_id"],
             licence: map["licence"],
-            osmType: OsmType.fromString(map["osm_type"]),
-            osmId: map["osm_id"],
+            osmId: OsmId.fromMap(map),
             position: LatLng(double.parse(map["lat"].toString()), double.parse(map["lon"].toString())),
             category: map["category"],
             type: map["type"],
@@ -91,8 +88,7 @@ class Place {
     Map<String, dynamic> toMap() => {
         "place_id": placeId,
         "licence": licence,
-        "osm_type": osmType.name,
-        "osm_id": osmId,
+        ...osmId.toMap(),
         "lat": position.latitude,
         "lon": position.longitude,
         "category": category,

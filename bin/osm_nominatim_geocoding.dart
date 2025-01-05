@@ -1,35 +1,18 @@
-import 'package:latlong2/latlong.dart';
 import 'package:osm_nominatim_geocoding/osm_nominatim_geocoding.dart';
 
-void main(List<String> arguments) {
+void main() async {
+  List<OsmId> osmIds = [];
   final nominatim = Nominatim();
-  final places = nominatim.search(q: '1600 Amphitheatre Parkway, Mountain View, CA');
-  places.then((value) {
-    if (value != null) {
-      for (final place in value) {
-        print(place.displayName);
-        print(place.osmId);
-        print(place.osmType);
-      }
-    }
-  });
+  final places = await nominatim.search(q: '1600 Amphitheatre Parkway, Mountain View, CA');
+  for (final place in places!) {
+    osmIds.add(place.osmId);
+  }
 
-  final place = nominatim.reverse(LatLng(37.422, -122.084));
-  place.then((value) {
-    if (value != null) {
-      print(value.displayName);
-    }
-  });
+  final place = await nominatim.reverse(places.first.position);
+  print(place!.displayName);
 
-  final places2 = nominatim.lookup({23733659: OsmType.way, 2192620021: OsmType.node});
-
-  places2.then((value) {
-    if (value != null) {
-      for (final place in value) {
-        print(place.displayName);
-        print(place.osmId);
-        print(place.osmType);
-      }
-    }
-  });
+  final places2 = await nominatim.lookup(osmIds);
+  for (final place in places2!) {
+    print(place.displayName);
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:osm_nominatim_geocoding/src/enumerators/osm_type.dart';
 
+import 'classes/osm_id.dart';
 import 'classes/search_query.dart';
 import 'enumerators/nominatim_routes.dart';
 import 'classes/place.dart';
@@ -62,13 +62,11 @@ class Nominatim {
     return Place.fromMap(response.data!);
   }
 
-  Future<List<Place>?> lookup(Map<int, OsmType> osmIds) async {
-    final entries = osmIds.entries;
-
+  Future<List<Place>?> lookup(List<OsmId> osmIds) async {
     List<String> osmIdStrings = [];
 
-    for (final entry in entries) {
-      osmIdStrings.add('${entry.value.name[0]}${entry.key}');
+    for (final id in osmIds) {
+      osmIdStrings.add('${id.type.name[0]}${id.value}');
     }
 
     final response = await _dioClient.get<List<dynamic>>(
