@@ -113,7 +113,7 @@ class Place {
 }
 
 extension Places on List<Place> {
-    static List<Place> fromMapList(List<Map<String, dynamic>> list) {
-        return list.map((x) => Place.fromMap(x)).toList();
+    static List<Place> fromList(List<dynamic> list) {
+        return list.map((e) => Place.fromMap(e)).toList();
     }
 }

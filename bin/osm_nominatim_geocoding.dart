@@ -1,5 +1,11 @@
-import 'package:osm_nominatim_geocoding/osm_nominatim_geocoding.dart' as osm_nominatim_geocoding;
+import 'package:osm_nominatim_geocoding/osm_nominatim_geocoding.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${osm_nominatim_geocoding.calculate()}!');
+  final nominatim = Nominatim();
+  final places = nominatim.search(q: '1600 Amphitheatre Parkway, Mountain View, CA');
+  places.then((value) {
+    for (var place in value) {
+      print(place.displayName);
+    }
+  });
 }

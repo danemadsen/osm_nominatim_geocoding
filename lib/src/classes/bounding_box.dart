@@ -19,10 +19,10 @@ class BBox {
   );
   
   factory BBox.fromDynamicList(List<dynamic> list) => BBox(
-    x: list[0].toDouble(),
-    y: list[1].toDouble(),
-    z: list[2].toDouble(),
-    m: list[3].toDouble(),
+    x: double.parse(list[0].toString()),
+    y: double.parse(list[1].toString()),
+    z: double.parse(list[2].toString()),
+    m: double.parse(list[3].toString())
   );
 
   List<double> toList() => [x, y, z, m];

@@ -21,7 +21,7 @@ class Nominatim {
   }
 
   Future<List<Place>> searchSimple(String q) async {
-    final response = await _dioClient.get<List<Map<String,dynamic>>>(
+    final response = await _dioClient.get<List<dynamic>>(
       NominatimRoute.search.url,
       queryParameters: {
         'q': q,
@@ -33,11 +33,11 @@ class Nominatim {
       return [];
     }
 
-    return Places.fromMapList(response.data!);
+    return Places.fromList(response.data!);
   }
 
   Future<List<Place>> searchStructured(SearchQuery query) async {
-    final response = await _dioClient.get<List<Map<String,dynamic>>>(
+    final response = await _dioClient.get<List<dynamic>>(
       NominatimRoute.search.url,
       queryParameters: query.toMap(),
     );
@@ -46,6 +46,6 @@ class Nominatim {
       return [];
     }
 
-    return Places.fromMapList(response.data!);
+    return Places.fromList(response.data!);
   }
 }
