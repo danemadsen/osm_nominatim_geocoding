@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'classes/structured_search_query.dart';
+import 'classes/search_query.dart';
 import 'enumerators/nominatim_routes.dart';
 import 'classes/place.dart';
 
