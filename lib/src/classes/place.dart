@@ -1,12 +1,13 @@
 import 'package:geojson_vi/geojson_vi.dart';
-import 'package:osm_nominatim_geocoding/src/classes/bounding_box.dart';
 
+import 'bounding_box.dart';
+import 'osm_type.dart';
 import 'address.dart';
 
 class Place {
     int placeId;
     String licence;
-    String osmType;
+    OsmType osmType;
     String osmId;
     String lat;
     String lon;
@@ -49,7 +50,7 @@ class Place {
     factory Place.fromMap(Map<String, dynamic> map) => Place(
         placeId: map["place_id"],
         licence: map["licence"],
-        osmType: map["osm_type"],
+        osmType: OsmType.fromString(map["osm_type"]),
         osmId: map["osm_id"],
         lat: map["lat"],
         lon: map["lon"],
@@ -71,7 +72,7 @@ class Place {
     Map<String, dynamic> toMap() => {
         "place_id": placeId,
         "licence": licence,
-        "osm_type": osmType,
+        "osm_type": osmType.name,
         "osm_id": osmId,
         "lat": lat,
         "lon": lon,
