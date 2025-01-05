@@ -1,18 +1,13 @@
-import 'dart:convert';
-
 import 'package:geojson_vi/geojson_vi.dart';
+import 'package:osm_nominatim_geocoding/src/classes/bounding_box.dart';
 
 import 'address.dart';
-
-List<Place> placefromMap(String str) => List<Place>.from(json.decode(str).map((x) => Place.fromMap(x)));
-
-String placetoMap(List<Place> data) => json.encode(List<dynamic>.from(data.map((x) => x.toMap())));
 
 class Place {
     int placeId;
     String licence;
     String osmType;
-    dynamic osmId;
+    String osmId;
     String lat;
     String lon;
     String? category;
@@ -22,7 +17,7 @@ class Place {
     String? addresstype;
     String? name;
     String displayName;
-    List<String> boundingbox;
+    BBox boundingbox;
     GeoJSON? geojson;
     String? placeClass;
     String? icon;
@@ -51,26 +46,26 @@ class Place {
         this.extratags,
     });
 
-    factory Place.fromMap(Map<String, dynamic> json) => Place(
-        placeId: json["place_id"],
-        licence: json["licence"],
-        osmType: json["osm_type"],
-        osmId: json["osm_id"],
-        lat: json["lat"],
-        lon: json["lon"],
-        category: json["category"],
-        type: json["type"],
-        placeRank: json["place_rank"],
-        importance: json["importance"]?.toDouble(),
-        addresstype: json["addresstype"],
-        name: json["name"],
-        displayName: json["display_name"],
-        boundingbox: List<String>.from(json["boundingbox"].map((x) => x)),
-        geojson: json["geojson"] == null ? null : GeoJSON.fromMap(json["geojson"]),
-        placeClass: json["class"],
-        icon: json["icon"],
-        address: json["address"] == null ? null : Address.fromMap(json["address"]),
-        extratags: json["extratags"],
+    factory Place.fromMap(Map<String, dynamic> map) => Place(
+        placeId: map["place_id"],
+        licence: map["licence"],
+        osmType: map["osm_type"],
+        osmId: map["osm_id"],
+        lat: map["lat"],
+        lon: map["lon"],
+        category: map["category"],
+        type: map["type"],
+        placeRank: map["place_rank"],
+        importance: map["importance"]?.toDouble(),
+        addresstype: map["addresstype"],
+        name: map["name"],
+        displayName: map["display_name"],
+        boundingbox: BBox.fromDynamicList(List<dynamic>.from(map["boundingbox"].map((x) => x))),
+        geojson: map["geomap"] == null ? null : GeoJSON.fromMap(map["geojson"]),
+        placeClass: map["class"],
+        icon: map["icon"],
+        address: map["address"] == null ? null : Address.fromMap(map["address"]),
+        extratags: map["extratags"],
     );
 
     Map<String, dynamic> toMap() => {
@@ -87,7 +82,7 @@ class Place {
         "addresstype": addresstype,
         "name": name,
         "display_name": displayName,
-        "boundingbox": List<dynamic>.from(boundingbox.map((x) => x)),
+        "boundingbox": boundingbox.toList(),
         "geojson": geojson?.toMap(),
         "class": placeClass,
         "icon": icon,
