@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:osm_nominatim_geocoding/src/classes/structured_search_query.dart';
-import 'package:osm_nominatim_geocoding/src/enumerators/nominatim_routes.dart';
 
+import 'classes/structured_search_query.dart';
+import 'enumerators/nominatim_routes.dart';
 import 'classes/place.dart';
 
 class Nominatim {

@@ -1,7 +1,7 @@
 import 'package:geojson_vi/geojson_vi.dart';
 
-import 'bounding_box.dart';
 import '../enumerators/osm_type.dart';
+import 'bounding_box.dart';
 import 'address.dart';
 
 class Place {
