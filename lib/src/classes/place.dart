@@ -45,25 +45,51 @@ class Place {
         this.extra,
     });
 
-    factory Place.fromMap(Map<String, dynamic> map) => Place(
-        placeId: map["place_id"],
-        licence: map["licence"],
-        osmType: OsmType.fromString(map["osm_type"]),
-        osmId: map["osm_id"],
-        lat: map["lat"],
-        lon: map["lon"],
-        category: map["category"],
-        type: map["type"],
-        placeRank: map["place_rank"],
-        importance: map["importance"]?.toDouble(),
-        addresstype: map["addresstype"],
-        name: map["name"],
-        displayName: map["display_name"],
-        boundingbox: BBox.fromDynamicList(List<dynamic>.from(map["boundingbox"].map((x) => x))),
-        geojson: map["geomap"] == null ? null : GeoJSON.fromMap(map["geojson"]),
-        placeClass: map["class"],
-        address: map["address"] == null ? null : Address.fromMap(map["address"]),
-    );
+    factory Place.fromMap(Map<String, dynamic> map) {
+        // Only the unused fields 
+        final extraKeys = map.keys.where((key) => ![
+            "place_id",
+            "licence",
+            "osm_type",
+            "osm_id",
+            "lat",
+            "lon",
+            "category",
+            "type",
+            "place_rank",
+            "importance",
+            "addresstype",
+            "name",
+            "display_name",
+            "boundingbox",
+            "geojson",
+            "class",
+            "address",
+        ].contains(key));
+
+        final extras = Map<String, dynamic>.fromEntries(extraKeys.map((key) => MapEntry(key, map[key])));
+
+        return Place(
+            placeId: map["place_id"],
+            licence: map["licence"],
+            osmType: OsmType.fromString(map["osm_type"]),
+            osmId: map["osm_id"],
+            lat: map["lat"],
+            lon: map["lon"],
+            category: map["category"],
+            type: map["type"],
+            placeRank: map["place_rank"],
+            importance: map["importance"]?.toDouble(),
+            addresstype: map["addresstype"],
+            name: map["name"],
+            displayName: map["display_name"],
+            boundingbox: BBox.fromDynamicList(List<dynamic>.from(map["boundingbox"].map((x) => x))),
+            geojson: map["geomap"] == null ? null : GeoJSON.fromMap(map["geojson"]),
+            placeClass: map["class"],
+            address: map["address"] == null ? null : Address.fromMap(map["address"]),
+            extra: extras.isEmpty ? null : extras,
+        );
+    }
 
     Map<String, dynamic> toMap() => {
         "place_id": placeId,
@@ -83,5 +109,6 @@ class Place {
         "geojson": geojson?.toMap(),
         "class": placeClass,
         "address": address?.toMap(),
+        ...extra ?? {},
     };
 }
