@@ -1,4 +1,4 @@
-class StructuredSearchQuery {
+class SearchQuery {
   final String? amenity;
   final String? street;
   final String? city;
@@ -7,7 +7,7 @@ class StructuredSearchQuery {
   final String? country;
   final int? postCode;
 
-  StructuredSearchQuery({
+  SearchQuery({
     this.amenity,
     this.street,
     this.city,
@@ -17,38 +17,15 @@ class StructuredSearchQuery {
     this.postCode,
   });
 
-  @override
-  String toString() {
-    String query = '?';
-
-    if (amenity != null) {
-      query += 'amenity=$amenity&';
-    }
-
-    if (street != null) {
-      query += 'street=$street&';
-    }
-
-    if (city != null) {
-      query += 'city=$city&';
-    }
-
-    if (county != null) {
-      query += 'county=$county&';
-    }
-
-    if (state != null) {
-      query += 'state=$state&';
-    }
-
-    if (country != null) {
-      query += 'country=$country&';
-    }
-
-    if (postCode != null) {
-      query += 'postalcode=$postCode';
-    }
-
-    return query.replaceAll(' ', '+');
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> map = {'format': 'json'};
+    if (amenity != null) map['amenity'] = amenity;
+    if (street != null) map['street'] = street;
+    if (city != null) map['city'] = city;
+    if (county != null) map['county'] = county;
+    if (state != null) map['state'] = state;
+    if (country != null) map['country'] = country;
+    if (postCode != null) map['postalcode'] = postCode;
+    return map;
   }
 }

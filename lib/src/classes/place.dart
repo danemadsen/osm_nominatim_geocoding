@@ -46,7 +46,6 @@ class Place {
     });
 
     factory Place.fromMap(Map<String, dynamic> map) {
-        // Only the unused fields 
         final extraKeys = map.keys.where((key) => ![
             "place_id",
             "licence",
@@ -111,4 +110,10 @@ class Place {
         "address": address?.toMap(),
         ...extra ?? {},
     };
+}
+
+extension Places on List<Place> {
+    static List<Place> fromMapList(List<Map<String, dynamic>> list) {
+        return list.map((x) => Place.fromMap(x)).toList();
+    }
 }
