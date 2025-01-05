@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'classes/search_query.dart';
 import 'enumerators/nominatim_routes.dart';
@@ -9,7 +10,7 @@ class Nominatim {
 
   Nominatim({Dio? dioClient}) : _dioClient = dioClient ?? Dio();
 
-  Future<List<Place>> search({String? q, SearchQuery? query}) async {
+  Future<List<Place>?> search({String? q, SearchQuery? query}) async {
     assert((q == null) != (query == null), 'Either q or query must be provided, but not both');
 
     if (q != null) {
@@ -20,7 +21,7 @@ class Nominatim {
     }
   }
 
-  Future<List<Place>> searchSimple(String q) async {
+  Future<List<Place>?> searchSimple(String q) async {
     final response = await _dioClient.get<List<dynamic>>(
       NominatimRoute.search.url,
       queryParameters: {
@@ -29,23 +30,34 @@ class Nominatim {
       },
     );
 
-    if (response.data == null) {
-      return [];
-    }
+    if (response.data == null) return null;
 
     return Places.fromList(response.data!);
   }
 
-  Future<List<Place>> searchStructured(SearchQuery query) async {
+  Future<List<Place>?> searchStructured(SearchQuery query) async {
     final response = await _dioClient.get<List<dynamic>>(
       NominatimRoute.search.url,
       queryParameters: query.toMap(),
     );
 
-    if (response.data == null) {
-      return [];
-    }
+    if (response.data == null) return null;
 
     return Places.fromList(response.data!);
+  }
+
+  Future<Place?> reverse(LatLng position) async {
+    final response = await _dioClient.get<Map<String, dynamic>>(
+      NominatimRoute.reverse.url,
+      queryParameters: {
+        'lat': position.latitude,
+        'lon': position.longitude,
+        'format': 'json'
+      },
+    );
+
+    if (response.data == null) return null;
+
+    return Place.fromMap(response.data!);
   }
 }

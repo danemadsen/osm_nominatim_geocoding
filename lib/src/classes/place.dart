@@ -1,4 +1,5 @@
 import 'package:geojson_vi/geojson_vi.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../enumerators/osm_type.dart';
 import 'bounding_box.dart';
@@ -9,8 +10,7 @@ class Place {
     String licence;
     OsmType osmType;
     int osmId;
-    String lat;
-    String lon;
+    LatLng position;
     String? category;
     String type;
     int placeRank;
@@ -29,8 +29,7 @@ class Place {
         required this.licence,
         required this.osmType,
         required this.osmId,
-        required this.lat,
-        required this.lon,
+        required this.position,
         this.category,
         required this.type,
         required this.placeRank,
@@ -73,8 +72,7 @@ class Place {
             licence: map["licence"],
             osmType: OsmType.fromString(map["osm_type"]),
             osmId: map["osm_id"],
-            lat: map["lat"],
-            lon: map["lon"],
+            position: LatLng(double.parse(map["lat"].toString()), double.parse(map["lon"].toString())),
             category: map["category"],
             type: map["type"],
             placeRank: map["place_rank"],
@@ -95,8 +93,8 @@ class Place {
         "licence": licence,
         "osm_type": osmType.name,
         "osm_id": osmId,
-        "lat": lat,
-        "lon": lon,
+        "lat": position.latitude,
+        "lon": position.longitude,
         "category": category,
         "type": type,
         "place_rank": placeRank,
