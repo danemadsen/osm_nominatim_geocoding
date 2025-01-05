@@ -1,8 +1,8 @@
 class Address {
   String? city;
-  String county;
-  String state;
-  String iso31662Lvl4;
+  String? county;
+  String? state;
+  String? iso31662Lvl4;
   String? postcode;
   String country;
   String countryCode;
@@ -15,9 +15,9 @@ class Address {
 
   Address({
     this.city,
-    required this.county,
-    required this.state,
-    required this.iso31662Lvl4,
+    this.county,
+    this.state,
+    this.iso31662Lvl4,
     this.postcode,
     required this.country,
     required this.countryCode,

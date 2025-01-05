@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:osm_nominatim_geocoding/src/classes/details.dart';
 
 import 'classes/osm_id.dart';
 import 'classes/search_query.dart';
@@ -80,5 +81,19 @@ class Nominatim {
     if (response.data == null) return null;
 
     return Places.fromList(response.data!);
+  }
+
+  Future<Details?> details(int placeId) async {
+    final response = await _dioClient.get<Map<String, dynamic>>(
+      NominatimRoute.details.url,
+      queryParameters: {
+        'place_id': placeId,
+        'format': 'json'
+      },
+    );
+
+    if (response.data == null) return null;
+
+    return Details.fromMap(response.data!);
   }
 }
