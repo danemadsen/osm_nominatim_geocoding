@@ -8,22 +8,21 @@ class Place {
     int placeId;
     String licence;
     OsmType osmType;
-    String osmId;
+    int osmId;
     String lat;
     String lon;
     String? category;
     String type;
-    int? placeRank;
+    int placeRank;
     double importance;
-    String? addresstype;
-    String? name;
+    String addresstype;
+    String name;
     String displayName;
     BBox boundingbox;
     GeoJSON? geojson;
     String? placeClass;
-    String? icon;
     Address? address;
-    Map<String, dynamic>? extratags;
+    Map<String, dynamic>? extra;
 
     Place({
         required this.placeId,
@@ -34,17 +33,16 @@ class Place {
         required this.lon,
         this.category,
         required this.type,
-        this.placeRank,
+        required this.placeRank,
         required this.importance,
-        this.addresstype,
-        this.name,
+        required this.addresstype,
+        required this.name,
         required this.displayName,
         required this.boundingbox,
         this.geojson,
         this.placeClass,
-        this.icon,
         this.address,
-        this.extratags,
+        this.extra,
     });
 
     factory Place.fromMap(Map<String, dynamic> map) => Place(
@@ -64,9 +62,7 @@ class Place {
         boundingbox: BBox.fromDynamicList(List<dynamic>.from(map["boundingbox"].map((x) => x))),
         geojson: map["geomap"] == null ? null : GeoJSON.fromMap(map["geojson"]),
         placeClass: map["class"],
-        icon: map["icon"],
         address: map["address"] == null ? null : Address.fromMap(map["address"]),
-        extratags: map["extratags"],
     );
 
     Map<String, dynamic> toMap() => {
@@ -86,8 +82,6 @@ class Place {
         "boundingbox": boundingbox.toList(),
         "geojson": geojson?.toMap(),
         "class": placeClass,
-        "icon": icon,
         "address": address?.toMap(),
-        "extratags": extratags,
     };
 }
