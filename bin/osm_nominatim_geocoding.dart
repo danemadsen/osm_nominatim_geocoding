@@ -8,6 +8,8 @@ void main(List<String> arguments) {
     if (value != null) {
       for (final place in value) {
         print(place.displayName);
+        print(place.osmId);
+        print(place.osmType);
       }
     }
   });
@@ -16,6 +18,18 @@ void main(List<String> arguments) {
   place.then((value) {
     if (value != null) {
       print(value.displayName);
+    }
+  });
+
+  final places2 = nominatim.lookup({23733659: OsmType.way, 2192620021: OsmType.node});
+
+  places2.then((value) {
+    if (value != null) {
+      for (final place in value) {
+        print(place.displayName);
+        print(place.osmId);
+        print(place.osmType);
+      }
     }
   });
 }
