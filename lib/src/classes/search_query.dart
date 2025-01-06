@@ -20,7 +20,7 @@ class SearchQuery {
   });
 
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = {'format': 'json'};
+    final Map<String, dynamic> map = {'format': 'geojson'};
     if (amenity != null) map['amenity'] = amenity;
     if (street != null) map['street'] = street;
     if (city != null) map['city'] = city;

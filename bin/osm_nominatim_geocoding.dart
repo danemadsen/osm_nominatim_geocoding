@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:geojson_vi/geojson_vi.dart';
 import 'package:osm_nominatim_geocoding/osm_nominatim_geocoding.dart';
 
 void main() async {
-  List<Place> places = [];
+  List<GeoJSONFeatureCollection> places = [];
   List<SearchQuery> queries = [
     SearchQuery(
       street: 'Mott St',
@@ -38,13 +39,13 @@ void main() async {
   Nominatim nominatim = Nominatim();
 
   for (SearchQuery query in queries) {
-    List<Place>? result = await nominatim.search(query: query);
+    GeoJSONFeatureCollection? result = await nominatim.search(query: query);
     if (result != null) {
-      places.addAll(result);
+      places.add(result);
     }
   }
 
-  final mapList = places.toMapList();
+  final mapList = places.map((e) => e.toMap()).toList();
   final json = jsonEncode(mapList);
   print(json);
 }

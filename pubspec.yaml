@@ -1,6 +1,6 @@
 name: osm_nominatim_geocoding
 description: A simple wrapper for OSM Nominatim Geocoding API
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/danemadsen/osm_nominatim_geocoding
 
 environment:
