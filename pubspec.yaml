@@ -1,5 +1,5 @@
 name: osm_nominatim_geocoding
-description: A sample command-line application.
+description: A simple wrapper for OSM Nominatim Geocoding API
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
