@@ -6,6 +6,7 @@ class SearchQuery {
   final String? state;
   final String? country;
   final int? postCode;
+  final int? limit;
 
   SearchQuery({
     this.amenity,
@@ -15,6 +16,7 @@ class SearchQuery {
     this.state,
     this.country,
     this.postCode,
+    this.limit,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +28,7 @@ class SearchQuery {
     if (state != null) map['state'] = state;
     if (country != null) map['country'] = country;
     if (postCode != null) map['postalcode'] = postCode;
+    if (limit != null) map['limit'] = limit;
     return map;
   }
 }

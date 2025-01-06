@@ -2,7 +2,6 @@ import 'package:geojson_vi/geojson_vi.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'bounding_box.dart';
-import 'address.dart';
 import 'osm_id.dart';
 
 class Place {
@@ -20,7 +19,7 @@ class Place {
     BBox boundingbox;
     GeoJSON? geojson;
     String? placeClass;
-    Address? address;
+    Map<String, dynamic>? address;
     Map<String, dynamic>? extra;
 
     Place({
@@ -80,7 +79,7 @@ class Place {
             boundingbox: BBox.fromDynamicList(List<dynamic>.from(map["boundingbox"].map((x) => x))),
             geojson: map["geomap"] == null ? null : GeoJSON.fromMap(map["geojson"]),
             placeClass: map["class"],
-            address: map["address"] == null ? null : Address.fromMap(map["address"]),
+            address: map["address"],
             extra: extras.isEmpty ? null : extras,
         );
     }
@@ -101,7 +100,7 @@ class Place {
         "boundingbox": boundingbox.toList(),
         "geojson": geojson?.toMap(),
         "class": placeClass,
-        "address": address?.toMap(),
+        "address": address,
         ...extra ?? {},
     };
 }
@@ -109,5 +108,9 @@ class Place {
 extension Places on List<Place> {
     static List<Place> fromList(List<dynamic> list) {
         return list.map((e) => Place.fromMap(e)).toList();
+    }
+
+    List<Map<String, dynamic>> toMapList() {
+        return map((e) => e.toMap()).toList();
     }
 }

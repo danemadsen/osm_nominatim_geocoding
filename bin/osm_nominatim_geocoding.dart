@@ -1,24 +1,50 @@
+import 'dart:convert';
+
 import 'package:osm_nominatim_geocoding/osm_nominatim_geocoding.dart';
 
 void main() async {
-  List<OsmId> osmIds = [];
-  final nominatim = Nominatim();
-  final places = await nominatim.search(q: 'Bei Jing');
-  for (final place in places!) {
-    osmIds.add(place.osmId);
+  List<Place> places = [];
+  List<SearchQuery> queries = [
+    SearchQuery(
+      street: 'Mott St',
+      city: 'Brisbane'
+    ),
+    SearchQuery(
+      amenity: 'restaurant',
+      city: 'Dresden'
+    ),
+    SearchQuery(
+      city: 'Berlin',
+      country: 'Germany'
+    ),
+    SearchQuery(
+      state: 'California',
+      country: 'USA'
+    ),
+    SearchQuery(
+      city: 'Wuhan',
+      country: 'China'
+    ),
+    SearchQuery(
+      street: 'Lombard St',
+      city: 'San Francisco',
+    ),
+    SearchQuery(
+      amenity: 'theatre',
+      city: 'London'
+    )
+  ];
+
+  Nominatim nominatim = Nominatim();
+
+  for (SearchQuery query in queries) {
+    List<Place>? result = await nominatim.search(query: query);
+    if (result != null) {
+      places.addAll(result);
+    }
   }
 
-  final place = await nominatim.reverse(places.first.position);
-  print(place!.displayName);
-
-  final places2 = await nominatim.lookup(osmIds);
-  for (final place in places2!) {
-    print(place.displayName);
-  }
-
-  final detailsPlace = await nominatim.details(places.first.placeId);
-  print(detailsPlace!.countryCode);
-
-  final status = await nominatim.status();
-  print(status!.message);
+  final mapList = places.toMapList();
+  final json = jsonEncode(mapList);
+  print(json);
 }

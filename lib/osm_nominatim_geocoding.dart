@@ -1,7 +1,6 @@
 library osm_nominatim_geocoding;
 
 export 'src/nominatim.dart';
-export 'src/classes/address.dart';
 export 'src/classes/bounding_box.dart';
 export 'src/classes/details.dart';
 export 'src/classes/osm_id.dart';
