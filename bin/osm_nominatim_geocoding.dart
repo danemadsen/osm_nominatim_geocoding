@@ -18,4 +18,7 @@ void main() async {
 
   final detailsPlace = await nominatim.details(places.first.placeId);
   print(detailsPlace!.countryCode);
+
+  final status = await nominatim.status();
+  print(status!.message);
 }

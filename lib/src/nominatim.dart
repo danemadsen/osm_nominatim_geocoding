@@ -2,9 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:osm_nominatim_geocoding/src/classes/details.dart';
 
+import 'enumerators/nominatim_routes.dart';
 import 'classes/osm_id.dart';
 import 'classes/search_query.dart';
-import 'enumerators/nominatim_routes.dart';
+import 'classes/status.dart';
 import 'classes/place.dart';
 
 class Nominatim {
@@ -95,5 +96,18 @@ class Nominatim {
     if (response.data == null) return null;
 
     return Details.fromMap(response.data!);
+  }
+
+  Future<Status?> status() async {
+    final response = await _dioClient.get<Map<String, dynamic>>(
+      NominatimRoute.status.url,
+      queryParameters: {
+        'format': 'json'
+      },
+    );
+
+    if (response.data == null) return null;
+
+    return Status.fromMap(response.data!);
   }
 }

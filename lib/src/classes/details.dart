@@ -1,10 +1,10 @@
 import 'package:geojson_vi/geojson_vi.dart';
+import 'package:osm_nominatim_geocoding/osm_nominatim_geocoding.dart';
 
 class Details {
   int placeId;
   int parentPlaceId;
-  String osmType;
-  int osmId;
+  OsmId osmId;
   String category;
   String type;
   dynamic adminLevel;
@@ -30,7 +30,6 @@ class Details {
   Details({
     required this.placeId,
     required this.parentPlaceId,
-    required this.osmType,
     required this.osmId,
     required this.category,
     required this.type,
@@ -55,39 +54,37 @@ class Details {
     this.linkedPlaces,
   });
 
-  factory Details.fromMap(Map<String, dynamic> json) => Details(
-    placeId: json["place_id"],
-    parentPlaceId: json["parent_place_id"],
-    osmType: json["osm_type"],
-    osmId: json["osm_id"],
-    category: json["category"],
-    type: json["type"],
-    adminLevel: json["admin_level"],
-    localname: json["localname"],
-    names: Map.from(json["names"]).map((k, v) => MapEntry<String, String>(k, v)),
-    addresstags: json["addresstags"],
-    housenumber: json["housenumber"],
-    calculatedPostcode: json["calculated_postcode"],
-    countryCode: json["country_code"],
-    indexedDate: DateTime.parse(json["indexed_date"]),
-    importance: json["importance"]?.toDouble(),
-    calculatedImportance: json["calculated_importance"]?.toDouble(),
-    extratags: json["extratags"],
-    rankAddress: json["rank_address"],
-    rankSearch: json["rank_search"],
-    isarea: json["isarea"],
-    centroid: GeoJSON.fromMap(json["centroid"]),
-    geometry: GeoJSON.fromMap(json["geometry"]),
-    calculatedWikipedia: json["calculated_wikipedia"],
-    icon: json["icon"],
-    linkedPlaces: json["linked_places"]
+  factory Details.fromMap(Map<String, dynamic> map) => Details(
+    placeId: map["place_id"],
+    parentPlaceId: map["parent_place_id"],
+    osmId: OsmId.fromMap(map),
+    category: map["category"],
+    type: map["type"],
+    adminLevel: map["admin_level"],
+    localname: map["localname"],
+    names: Map.from(map["names"]).map((k, v) => MapEntry<String, String>(k, v)),
+    addresstags: map["addresstags"],
+    housenumber: map["housenumber"],
+    calculatedPostcode: map["calculated_postcode"],
+    countryCode: map["country_code"],
+    indexedDate: DateTime.parse(map["indexed_date"]),
+    importance: map["importance"]?.toDouble(),
+    calculatedImportance: map["calculated_importance"]?.toDouble(),
+    extratags: map["extratags"],
+    rankAddress: map["rank_address"],
+    rankSearch: map["rank_search"],
+    isarea: map["isarea"],
+    centroid: GeoJSON.fromMap(map["centroid"]),
+    geometry: GeoJSON.fromMap(map["geometry"]),
+    calculatedWikipedia: map["calculated_wikipedia"],
+    icon: map["icon"],
+    linkedPlaces: map["linked_places"]
   );
 
   Map<String, dynamic> toMap() => {
     "place_id": placeId,
     "parent_place_id": parentPlaceId,
-    "osm_type": osmType,
-    "osm_id": osmId,
+    ...osmId.toMap(),
     "category": category,
     "type": type,
     "admin_level": adminLevel,
